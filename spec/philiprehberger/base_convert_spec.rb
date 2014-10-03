@@ -7,6 +7,99 @@ RSpec.describe Philiprehberger::BaseConvert do
     expect(Philiprehberger::BaseConvert::VERSION).not_to be_nil
   end
 
+  describe 'Base58' do
+    describe '.base58_encode / .base58_decode' do
+      it 'roundtrips a simple string' do
+        encoded = described_class.base58_encode('Hello World')
+        expect(described_class.base58_decode(encoded)).to eq('Hello World')
+      end
+
+      it 'roundtrips a single byte' do
+        encoded = described_class.base58_encode('A')
+        expect(described_class.base58_decode(encoded)).to eq('A')
+      end
+
+      it 'preserves leading zero bytes' do
+        input = "\x00\x00hello"
+        encoded = described_class.base58_encode(input)
+        expect(encoded).to start_with('11')
+        expect(described_class.base58_decode(encoded)).to eq(input)
+      end
+
+      it 'handles empty string' do
+        expect(described_class.base58_encode('')).to eq('')
+        expect(described_class.base58_decode('')).to eq('')
+      end
+
+      it 'produces known encoding for "Hello"' do
+        encoded = described_class.base58_encode('Hello')
+        decoded = described_class.base58_decode(encoded)
+        expect(decoded).to eq('Hello')
+      end
+
+      it 'raises error for invalid Base58 characters' do
+        expect { described_class.base58_decode('0OIl') }.to raise_error(Philiprehberger::BaseConvert::Error)
+      end
+    end
+  end
+
+  describe 'Base62' do
+    describe '.base62_encode / .base62_decode' do
+      it 'encodes and decodes zero' do
+        expect(described_class.base62_encode(0)).to eq('0')
+        expect(described_class.base62_decode('0')).to eq(0)
+      end
+
+      it 'roundtrips a small integer' do
+        encoded = described_class.base62_encode(123_456)
+        expect(described_class.base62_decode(encoded)).to eq(123_456)
+      end
+
+      it 'roundtrips a large integer' do
+        value = 10**18
+        encoded = described_class.base62_encode(value)
+        expect(described_class.base62_decode(encoded)).to eq(value)
+      end
+
+      it 'raises error for negative input' do
+        expect { described_class.base62_encode(-1) }.to raise_error(Philiprehberger::BaseConvert::Error)
+      end
+
+      it 'raises error for empty string decode' do
+        expect { described_class.base62_decode('') }.to raise_error(Philiprehberger::BaseConvert::Error)
+      end
+    end
+  end
+
+  describe 'Base32 (Crockford)' do
+    describe '.base32_encode / .base32_decode' do
+      it 'roundtrips a string' do
+        encoded = described_class.base32_encode('Hello')
+        expect(described_class.base32_decode(encoded)).to eq('Hello')
+      end
+
+      it 'is case insensitive on decode' do
+        encoded = described_class.base32_encode('Hello')
+        expect(described_class.base32_decode(encoded.downcase)).to eq('Hello')
+      end
+
+      it 'handles empty string' do
+        expect(described_class.base32_encode('')).to eq('')
+        expect(described_class.base32_decode('')).to eq('')
+      end
+
+      it 'roundtrips binary data' do
+        input = "\x01\x02\x03\x04"
+        encoded = described_class.base32_encode(input)
+        expect(described_class.base32_decode(encoded)).to eq(input)
+      end
+
+      it 'raises error for invalid characters' do
+        expect { described_class.base32_decode('!!!') }.to raise_error(Philiprehberger::BaseConvert::Error)
+      end
+    end
+  end
+
   describe '.encode' do
     it 'encodes an integer in binary (base 2)' do
       expect(described_class.encode(10, base: 2)).to eq('1010')
