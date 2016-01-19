@@ -15,7 +15,7 @@ Multi-format base encoding with Base32, Base58, Base62, and Base85 support
 Add to your Gemfile:
 
 ```ruby
-gem 'philiprehberger-base_convert'
+gem "philiprehberger-base_convert"
 ```
 
 Or install directly:
@@ -90,8 +90,8 @@ Philiprehberger::BaseConvert.encode(42, base: 2)      # => "101010"
 
 ```bash
 bundle install
-bundle exec rspec      # Run tests
-bundle exec rubocop    # Check code style
+bundle exec rspec
+bundle exec rubocop
 ```
 
 ## License
