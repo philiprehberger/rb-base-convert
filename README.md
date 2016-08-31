@@ -27,7 +27,7 @@ gem install philiprehberger-base_convert
 ## Usage
 
 ```ruby
-require 'philiprehberger/base_convert'
+require "philiprehberger/base_convert"
 
 # Base58 (Bitcoin alphabet) — encode/decode strings
 encoded = Philiprehberger::BaseConvert.base58_encode('Hello World')
