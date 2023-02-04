@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'Multi-format base encoding with Base32, Base58, Base62, and Base85 support'
   spec.description = 'Encode and decode data in Base32 (Crockford), Base58 (Bitcoin), Base62, and ' \
-                       'Base85 (ASCII85) formats. Also supports arbitrary base encoding for integers ' \
-                       'from base 2 to 62.'
+                     'Base85 (ASCII85) formats. Also supports arbitrary base encoding for integers ' \
+                     'from base 2 to 62.'
   spec.homepage = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-base_convert'
   spec.license = 'MIT'
 
