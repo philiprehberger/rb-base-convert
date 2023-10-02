@@ -81,6 +81,31 @@ module Philiprehberger
       Base85.decode(string)
     end
 
+    # Encode a string to hexadecimal
+    #
+    # @param string [String] the input string
+    # @return [String] the hex-encoded string
+    # @raise [Error] if the input is nil
+    def self.hex_encode(string)
+      raise Error, 'input cannot be nil' if string.nil?
+
+      string.unpack1('H*')
+    end
+
+    # Decode a hexadecimal string
+    #
+    # @param string [String] the hex-encoded string
+    # @return [String] the decoded string
+    # @raise [Error] if the input is nil, empty, odd-length, or contains invalid characters
+    def self.hex_decode(string)
+      raise Error, 'input cannot be nil' if string.nil?
+      raise Error, 'input cannot be empty' if string.empty?
+      raise Error, 'invalid hex string: odd length' if string.length.odd?
+      raise Error, "invalid hex character in: #{string}" unless string.match?(/\A[0-9a-fA-F]+\z/)
+
+      [string].pack('H*')
+    end
+
     # Encode an integer in an arbitrary base (2-62)
     #
     # @param integer [Integer] the input integer (must be >= 0)
