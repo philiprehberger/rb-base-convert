@@ -81,6 +81,24 @@ module Philiprehberger
       Base85.decode(string)
     end
 
+    # Encode an integer to Base36
+    #
+    # @param integer [Integer] the input integer (must be >= 0)
+    # @return [String] the Base36-encoded string
+    # @raise [Error] if the input is negative
+    def self.base36_encode(integer)
+      encode(integer, base: 36)
+    end
+
+    # Decode a Base36 string to an integer
+    #
+    # @param string [String] the Base36-encoded string
+    # @return [Integer] the decoded integer
+    # @raise [Error] if the string contains invalid characters
+    def self.base36_decode(string)
+      decode(string, base: 36)
+    end
+
     # Encode a string to hexadecimal
     #
     # @param string [String] the input string

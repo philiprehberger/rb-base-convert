@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/philiprehberger-base_convert.svg)](https://rubygems.org/gems/philiprehberger-base_convert)
 [![Last updated](https://img.shields.io/github/last-commit/philiprehberger/rb-base-convert)](https://github.com/philiprehberger/rb-base-convert/commits/main)
 
-Multi-format base encoding with Base32, Base58, Base62, and Base85 support
+Multi-format base encoding with Base32, Base36, Base58, Base62, and Base85 support
 
 ## Requirements
 
@@ -61,6 +61,15 @@ Philiprehberger::BaseConvert.base85_encode('Hello')  # => "87cURDZ"
 Philiprehberger::BaseConvert.base85_decode('87cURDZ') # => "Hello"
 ```
 
+### Base36
+
+Encode and decode integers using the `0-9A-Z` alphabet (alphanumeric, case-sensitive uppercase):
+
+```ruby
+Philiprehberger::BaseConvert.base36_encode(123_456)   # => "2N9C"
+Philiprehberger::BaseConvert.base36_decode('2N9C')     # => 123456
+```
+
 ### Hex
 
 ```ruby
@@ -92,6 +101,8 @@ Philiprehberger::BaseConvert.encode(42, base: 2)      # => "101010"
 | `BaseConvert.base32_decode(string)` | Decode a Crockford Base32 string |
 | `BaseConvert.base85_encode(string)` | Encode a string to ASCII85 |
 | `BaseConvert.base85_decode(string)` | Decode an ASCII85 string |
+| `BaseConvert.base36_encode(integer)` | Encode an integer to Base36 |
+| `BaseConvert.base36_decode(string)` | Decode a Base36 string to an integer |
 | `hex_encode(string)` | Encode string to hexadecimal |
 | `hex_decode(string)` | Decode hexadecimal to string |
 | `BaseConvert.encode(integer, base:)` | Encode an integer in an arbitrary base (2-62) |
