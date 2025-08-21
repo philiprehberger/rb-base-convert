@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors = ['Philip Rehberger']
   spec.email = ['me@philiprehberger.com']
 
-  spec.summary = 'Multi-format base encoding with Base32, Base58, Base62, and Base85 support'
+  spec.summary = 'Multi-format base encoding with Base32, Base36, Base58, Base62, and Base85 support'
   spec.description = 'Encode and decode data in Base32 (Crockford), Base58 (Bitcoin), Base62, and ' \
                      'Base85 (ASCII85) formats. Also supports arbitrary base encoding for integers ' \
                      'from base 2 to 62.'
