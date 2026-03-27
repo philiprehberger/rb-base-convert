@@ -3,6 +3,7 @@
 [![Tests](https://github.com/philiprehberger/rb-base-convert/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rb-base-convert/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/philiprehberger-base_convert.svg)](https://rubygems.org/gems/philiprehberger-base_convert)
 [![License](https://img.shields.io/github/license/philiprehberger/rb-base-convert)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Multi-format base encoding with Base32, Base58, Base62, and Base85 support
 
@@ -96,4 +97,4 @@ bundle exec rubocop
 
 ## License
 
-MIT
+[MIT](LICENSE)
