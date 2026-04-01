@@ -12,15 +12,15 @@ Gem::Specification.new do |spec|
   spec.description   = 'Encode and decode data in Base32 (Crockford), Base58 (Bitcoin), Base62, and ' \
                        'Base85 (ASCII85) formats. Also supports arbitrary base encoding for integers ' \
                        'from base 2 to 62.'
-  spec.homepage      = 'https://github.com/philiprehberger/rb-base-convert'
+  spec.homepage      = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-base_convert'
   spec.license       = 'MIT'
 
   spec.required_ruby_version = '>= 3.1.0'
 
   spec.metadata['homepage_uri']          = spec.homepage
-  spec.metadata['source_code_uri']       = spec.homepage
-  spec.metadata['changelog_uri']         = "#{spec.homepage}/blob/main/CHANGELOG.md"
-  spec.metadata['bug_tracker_uri']       = "#{spec.homepage}/issues"
+  spec.metadata['source_code_uri']       = 'https://github.com/philiprehberger/rb-base-convert'
+  spec.metadata['changelog_uri']         = 'https://github.com/philiprehberger/rb-base-convert/blob/main/CHANGELOG.md'
+  spec.metadata['bug_tracker_uri']       = 'https://github.com/philiprehberger/rb-base-convert/issues'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files         = Dir['lib/**/*.rb', 'LICENSE', 'README.md', 'CHANGELOG.md']
