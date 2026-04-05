@@ -100,6 +100,54 @@ RSpec.describe Philiprehberger::BaseConvert do
     end
   end
 
+  describe '.hex_encode' do
+    it 'encodes a string to hex' do
+      expect(described_class.hex_encode('Hello')).to eq('48656c6c6f')
+    end
+
+    it 'encodes empty string' do
+      expect(described_class.hex_encode('')).to eq('')
+    end
+
+    it 'raises for nil' do
+      expect { described_class.hex_encode(nil) }.to raise_error(Philiprehberger::BaseConvert::Error)
+    end
+  end
+
+  describe '.hex_decode' do
+    it 'decodes hex to string' do
+      expect(described_class.hex_decode('48656c6c6f')).to eq('Hello')
+    end
+
+    it 'handles uppercase hex' do
+      expect(described_class.hex_decode('48656C6C6F')).to eq('Hello')
+    end
+
+    it 'raises for odd-length input' do
+      expect { described_class.hex_decode('abc') }.to raise_error(Philiprehberger::BaseConvert::Error)
+    end
+
+    it 'raises for invalid characters' do
+      expect { described_class.hex_decode('xyz!') }.to raise_error(Philiprehberger::BaseConvert::Error)
+    end
+
+    it 'raises for nil' do
+      expect { described_class.hex_decode(nil) }.to raise_error(Philiprehberger::BaseConvert::Error)
+    end
+
+    it 'raises for empty string' do
+      expect { described_class.hex_decode('') }.to raise_error(Philiprehberger::BaseConvert::Error)
+    end
+  end
+
+  describe 'hex roundtrip' do
+    it 'roundtrips strings' do
+      %w[hello world foo].each do |str|
+        expect(described_class.hex_decode(described_class.hex_encode(str))).to eq(str)
+      end
+    end
+  end
+
   describe '.encode' do
     it 'encodes an integer in binary (base 2)' do
       expect(described_class.encode(10, base: 2)).to eq('1010')

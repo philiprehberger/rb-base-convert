@@ -61,6 +61,15 @@ Philiprehberger::BaseConvert.base85_encode('Hello')  # => "87cURDZ"
 Philiprehberger::BaseConvert.base85_decode('87cURDZ') # => "Hello"
 ```
 
+### Hex
+
+```ruby
+require "philiprehberger/base_convert"
+
+Philiprehberger::BaseConvert.hex_encode("Hello")        # => "48656c6c6f"
+Philiprehberger::BaseConvert.hex_decode("48656c6c6f")    # => "Hello"
+```
+
 ### Arbitrary Base
 
 Encode and decode integers in any base from 2 to 62:
@@ -83,6 +92,8 @@ Philiprehberger::BaseConvert.encode(42, base: 2)      # => "101010"
 | `BaseConvert.base32_decode(string)` | Decode a Crockford Base32 string |
 | `BaseConvert.base85_encode(string)` | Encode a string to ASCII85 |
 | `BaseConvert.base85_decode(string)` | Decode an ASCII85 string |
+| `hex_encode(string)` | Encode string to hexadecimal |
+| `hex_decode(string)` | Decode hexadecimal to string |
 | `BaseConvert.encode(integer, base:)` | Encode an integer in an arbitrary base (2-62) |
 | `BaseConvert.decode(string, base:)` | Decode a string from an arbitrary base to an integer |
 
