@@ -148,6 +148,42 @@ RSpec.describe Philiprehberger::BaseConvert do
     end
   end
 
+  describe 'Base36' do
+    describe '.base36_encode / .base36_decode' do
+      it 'encodes and decodes zero' do
+        expect(described_class.base36_encode(0)).to eq('0')
+        expect(described_class.base36_decode('0')).to eq(0)
+      end
+
+      it 'roundtrips a small integer' do
+        encoded = described_class.base36_encode(123_456)
+        expect(described_class.base36_decode(encoded)).to eq(123_456)
+      end
+
+      it 'roundtrips a large integer' do
+        value = 10**18
+        encoded = described_class.base36_encode(value)
+        expect(described_class.base36_decode(encoded)).to eq(value)
+      end
+
+      it 'encodes 35 as Z' do
+        expect(described_class.base36_encode(35)).to eq('Z')
+      end
+
+      it 'raises error for negative input' do
+        expect { described_class.base36_encode(-1) }.to raise_error(Philiprehberger::BaseConvert::Error)
+      end
+
+      it 'raises error for empty string decode' do
+        expect { described_class.base36_decode('') }.to raise_error(Philiprehberger::BaseConvert::Error)
+      end
+
+      it 'raises error for invalid characters' do
+        expect { described_class.base36_decode('zz') }.to raise_error(Philiprehberger::BaseConvert::Error)
+      end
+    end
+  end
+
   describe '.encode' do
     it 'encodes an integer in binary (base 2)' do
       expect(described_class.encode(10, base: 2)).to eq('1010')

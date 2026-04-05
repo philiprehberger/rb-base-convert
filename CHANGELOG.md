@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-04-04
+
+### Added
+- `base36_encode` and `base36_decode` convenience methods wrapping the generic encode/decode with base 36
+
 ## [0.2.0] - 2026-04-04
 
 ### Added
