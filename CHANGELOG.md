@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-04-15
+
+### Added
+- `detect` method that returns the narrowest base alphabet matching a string's characters (`:hex`, `:base32`, `:base58`, `:base62`, `:base64`, `:base85`, or `nil`)
+
 ## [0.3.1] - 2026-04-08
 
 ### Changed
