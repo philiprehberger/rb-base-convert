@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'set'
+
 require_relative 'base_convert/version'
 require_relative 'base_convert/base32'
 require_relative 'base_convert/base58'
@@ -11,6 +13,34 @@ module Philiprehberger
     class Error < StandardError; end
 
     GENERIC_ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+
+    HEX_ALPHABET = '0123456789abcdefABCDEF'
+    BASE64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=-_'
+    BASE85_ALPHABET = "#{(33..117).map(&:chr).join}z".freeze
+
+    DETECTION_ORDER = [
+      [:hex,    HEX_ALPHABET],
+      [:base32, Base32::DECODE_MAP.keys.join],
+      [:base58, Base58::ALPHABET],
+      [:base62, Base62::ALPHABET],
+      [:base64, BASE64_ALPHABET],
+      [:base85, BASE85_ALPHABET]
+    ].map { |name, chars| [name, chars.each_char.to_a.to_set] }.freeze
+
+    # Detect the encoding of a string based on its character set
+    #
+    # Returns the narrowest base whose alphabet fully covers the input.
+    # Empty strings and strings that match no known base return nil.
+    #
+    # @param string [String] the input string
+    # @return [Symbol, nil] one of :hex, :base32, :base58, :base62, :base64, :base85, or nil
+    def self.detect(string)
+      return nil if string.nil? || string.empty?
+
+      unique_chars = string.each_char.to_a.to_set
+      match = DETECTION_ORDER.find { |(_name, alphabet)| unique_chars.subset?(alphabet) }
+      match&.first
+    end
 
     # Encode a string to Base58 (Bitcoin alphabet)
     #

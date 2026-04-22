@@ -241,4 +241,47 @@ RSpec.describe Philiprehberger::BaseConvert do
       expect(described_class.decode(encoded, base: 36)).to eq(value)
     end
   end
+
+  describe '.detect' do
+    it 'detects hex strings' do
+      expect(described_class.detect('deadbeef')).to eq(:hex)
+      expect(described_class.detect('48656C6C6F')).to eq(:hex)
+    end
+
+    it 'detects base32 (Crockford) strings' do
+      # 'HELLOWORLD' uses characters valid in Crockford but includes 'W' which is not in hex
+      expect(described_class.detect('HELLOWORLD')).to eq(:base32)
+    end
+
+    it 'detects base58 strings (Bitcoin alphabet) when non-base32 chars appear' do
+      # 'U' is excluded from Crockford Base32 but valid in Base58
+      expect(described_class.detect('AUVW')).to eq(:base58)
+    end
+
+    it 'detects base62 strings when chars outside base58 appear' do
+      # '0' is excluded from Base58 (Bitcoin) and 'U' is excluded from Crockford Base32;
+      # together they force detection down to base62 (0-9A-Za-z)
+      expect(described_class.detect('0U9l')).to eq(:base62)
+    end
+
+    it 'detects base64 strings with URL-safe and padding chars' do
+      expect(described_class.detect('SGVsbG9Xb3JsZA==')).to eq(:base64)
+      expect(described_class.detect('abc-_def')).to eq(:base64)
+    end
+
+    it 'detects base85 strings with printable punctuation' do
+      expect(described_class.detect('87cURD]j!')).to eq(:base85)
+      expect(described_class.detect('#$%&()')).to eq(:base85)
+    end
+
+    it 'returns nil for an empty string' do
+      expect(described_class.detect('')).to be_nil
+    end
+
+    it 'returns nil when no base alphabet matches' do
+      # characters outside the ASCII85 printable range (e.g. extended/control)
+      expect(described_class.detect("hello\x7F")).to be_nil
+      expect(described_class.detect('hello world')).to be_nil
+    end
+  end
 end

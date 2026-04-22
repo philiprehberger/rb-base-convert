@@ -79,6 +79,21 @@ Philiprehberger::BaseConvert.hex_encode("Hello")        # => "48656c6c6f"
 Philiprehberger::BaseConvert.hex_decode("48656c6c6f")    # => "Hello"
 ```
 
+### Detect encoding
+
+Inspect the input alphabet and return the narrowest matching base, or `nil` when no single base covers all characters:
+
+```ruby
+Philiprehberger::BaseConvert.detect('deadbeef')          # => :hex
+Philiprehberger::BaseConvert.detect('HELLOWORLD')        # => :base32
+Philiprehberger::BaseConvert.detect('AUVW')              # => :base58
+Philiprehberger::BaseConvert.detect('0U9l')              # => :base62
+Philiprehberger::BaseConvert.detect('SGVsbG9Xb3JsZA==')  # => :base64
+Philiprehberger::BaseConvert.detect('#$%&()')            # => :base85
+Philiprehberger::BaseConvert.detect('')                  # => nil
+Philiprehberger::BaseConvert.detect('hello world')       # => nil
+```
+
 ### Arbitrary Base
 
 Encode and decode integers in any base from 2 to 62:
@@ -107,6 +122,7 @@ Philiprehberger::BaseConvert.encode(42, base: 2)      # => "101010"
 | `hex_decode(string)` | Decode hexadecimal to string |
 | `BaseConvert.encode(integer, base:)` | Encode an integer in an arbitrary base (2-62) |
 | `BaseConvert.decode(string, base:)` | Decode a string from an arbitrary base to an integer |
+| `BaseConvert.detect(string)` | Detect the narrowest matching base (`:hex`, `:base32`, `:base58`, `:base62`, `:base64`, `:base85`) or `nil` |
 
 ## Development
 
