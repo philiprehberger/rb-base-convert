@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-04-29
+
+### Added
+- `BaseConvert.base58_encode_int(integer)` and `BaseConvert.base58_decode_int(string)` for Base58 encoding of non-negative integers (Bitcoin-style short ID generation)
+
 ## [0.4.0] - 2026-04-15
 
 ### Added

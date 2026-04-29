@@ -34,6 +34,17 @@ encoded = Philiprehberger::BaseConvert.base58_encode('Hello World')
 decoded = Philiprehberger::BaseConvert.base58_decode(encoded)
 ```
 
+### Base58 Integers
+
+Encode and decode non-negative integers using the Bitcoin Base58 alphabet (useful for short, ambiguity-free IDs):
+
+```ruby
+id = Philiprehberger::BaseConvert.base58_encode_int(123456789)
+# => "BukQL"
+Philiprehberger::BaseConvert.base58_decode_int(id)
+# => 123456789
+```
+
 ### Base62
 
 Encode and decode integers using the URL-safe `0-9A-Za-z` alphabet:
@@ -110,6 +121,8 @@ Philiprehberger::BaseConvert.encode(42, base: 2)      # => "101010"
 |--------|-------------|
 | `BaseConvert.base58_encode(string)` | Encode a string to Base58 (Bitcoin alphabet) |
 | `BaseConvert.base58_decode(string)` | Decode a Base58 string |
+| `.base58_encode_int(integer)` | Encode a non-negative integer as Base58 |
+| `.base58_decode_int(string)` | Decode a Base58 string back to an integer |
 | `BaseConvert.base62_encode(integer)` | Encode an integer to Base62 |
 | `BaseConvert.base62_decode(string)` | Decode a Base62 string to an integer |
 | `BaseConvert.base32_encode(string)` | Encode a string to Crockford Base32 |

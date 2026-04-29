@@ -57,6 +57,45 @@ module Philiprehberger
 
         ("\x00" * leading_ones) + result.reverse.pack('C*')
       end
+
+      # Encode a non-negative integer to Base58
+      #
+      # @param integer [Integer] the input integer (must be >= 0)
+      # @return [String] the Base58-encoded string
+      # @raise [ArgumentError] if the input is negative or not an integer
+      def self.encode_int(integer)
+        raise ArgumentError, 'input must be a non-negative integer' unless integer.is_a?(Integer) && integer >= 0
+
+        return ALPHABET[0] if integer.zero?
+
+        result = []
+        num = integer
+        while num.positive?
+          num, remainder = num.divmod(BASE)
+          result << ALPHABET[remainder]
+        end
+
+        result.reverse.join
+      end
+
+      # Decode a Base58 string to an integer
+      #
+      # @param string [String] the Base58-encoded string
+      # @return [Integer] the decoded integer
+      # @raise [ArgumentError] if the string is empty or contains invalid characters
+      def self.decode_int(string)
+        raise ArgumentError, 'input must be a non-empty string' if string.nil? || string.empty?
+
+        num = 0
+        string.each_char do |char|
+          value = DECODE_MAP[char]
+          raise ArgumentError, "invalid Base58 character: #{char}" if value.nil?
+
+          num = (num * BASE) + value
+        end
+
+        num
+      end
     end
   end
 end

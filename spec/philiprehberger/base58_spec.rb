@@ -72,4 +72,66 @@ RSpec.describe Philiprehberger::BaseConvert::Base58 do
       expect(Philiprehberger::BaseConvert.base58_decode(encoded)).to eq('Hello')
     end
   end
+
+  describe '.encode_int' do
+    it 'returns "1" for zero' do
+      expect(described_class.encode_int(0)).to eq('1')
+    end
+
+    it 'encodes 57 as the last character of the alphabet' do
+      expect(described_class.encode_int(57)).to eq('z')
+    end
+
+    it 'encodes 1 as "2"' do
+      expect(described_class.encode_int(1)).to eq('2')
+    end
+
+    it 'encodes 123_456_789 as "BukQL"' do
+      expect(described_class.encode_int(123_456_789)).to eq('BukQL')
+    end
+
+    it 'raises ArgumentError for negative integers' do
+      expect { described_class.encode_int(-1) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises ArgumentError for non-integer input' do
+      expect { described_class.encode_int('x') }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe '.decode_int' do
+    it 'decodes "1" to 0' do
+      expect(described_class.decode_int('1')).to eq(0)
+    end
+
+    it 'decodes "z" to 57' do
+      expect(described_class.decode_int('z')).to eq(57)
+    end
+
+    it 'raises ArgumentError for empty input' do
+      expect { described_class.decode_int('') }.to raise_error(ArgumentError)
+    end
+
+    it 'raises ArgumentError for characters outside the alphabet' do
+      expect { described_class.decode_int('0') }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe 'integer roundtrip' do
+    [0, 1, 57, 1000, 123_456_789, 123_456_789_012_345].each do |value|
+      it "roundtrips #{value}" do
+        expect(described_class.decode_int(described_class.encode_int(value))).to eq(value)
+      end
+    end
+  end
+
+  describe 'integer module-level methods' do
+    it 'delegates base58_encode_int' do
+      expect(Philiprehberger::BaseConvert.base58_encode_int(123_456_789)).to eq('BukQL')
+    end
+
+    it 'delegates base58_decode_int' do
+      expect(Philiprehberger::BaseConvert.base58_decode_int('BukQL')).to eq(123_456_789)
+    end
+  end
 end

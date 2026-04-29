@@ -59,6 +59,24 @@ module Philiprehberger
       Base58.decode(string)
     end
 
+    # Encode a non-negative integer to Base58 (Bitcoin alphabet)
+    #
+    # @param integer [Integer] the input integer (must be >= 0)
+    # @return [String] the Base58-encoded string
+    # @raise [ArgumentError] if the input is negative or not an integer
+    def self.base58_encode_int(integer)
+      Base58.encode_int(integer)
+    end
+
+    # Decode a Base58 string to an integer
+    #
+    # @param string [String] the Base58-encoded string
+    # @return [Integer] the decoded integer
+    # @raise [ArgumentError] if the string is empty or contains invalid characters
+    def self.base58_decode_int(string)
+      Base58.decode_int(string)
+    end
+
     # Encode an integer to Base62
     #
     # @param integer [Integer] the input integer (must be >= 0)
