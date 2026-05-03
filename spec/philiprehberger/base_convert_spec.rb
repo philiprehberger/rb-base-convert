@@ -284,4 +284,47 @@ RSpec.describe Philiprehberger::BaseConvert do
       expect(described_class.detect('hello world')).to be_nil
     end
   end
+
+  describe '.valid?' do
+    it 'returns true for a valid hex string' do
+      expect(described_class.valid?('deadbeef', :hex)).to be true
+    end
+
+    it 'returns false for a hex string containing non-hex chars' do
+      expect(described_class.valid?('deadbeefz', :hex)).to be false
+    end
+
+    it 'returns true for a valid base58 string' do
+      expect(described_class.valid?('1A2B3C4D5E', :base58)).to be true
+    end
+
+    it 'returns false for a base58 string with excluded chars (0, O, I, l)' do
+      expect(described_class.valid?('0abc', :base58)).to be false
+      expect(described_class.valid?('OabC', :base58)).to be false
+    end
+
+    it 'returns true for a valid base62 string' do
+      expect(described_class.valid?('0aB1cD2', :base62)).to be true
+    end
+
+    it 'returns true for a valid base64 string' do
+      expect(described_class.valid?('SGVsbG9Xb3JsZA==', :base64)).to be true
+    end
+
+    it 'returns false for nil input' do
+      expect(described_class.valid?(nil, :hex)).to be false
+    end
+
+    it 'returns false for empty string' do
+      expect(described_class.valid?('', :hex)).to be false
+    end
+
+    it 'returns false for non-String input' do
+      expect(described_class.valid?(42, :hex)).to be false
+    end
+
+    it 'returns false for unknown base' do
+      expect(described_class.valid?('deadbeef', :base99)).to be false
+    end
+  end
 end

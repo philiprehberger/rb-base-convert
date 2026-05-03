@@ -42,6 +42,25 @@ module Philiprehberger
       match&.first
     end
 
+    # Check whether a string is syntactically valid for the given base
+    #
+    # Returns true when every character in the string is part of the given
+    # base's alphabet. Empty/nil input and unknown bases return false.
+    # Does not perform a decode — purely a character-set check.
+    #
+    # @param string [String] the input string
+    # @param base [Symbol] one of :hex, :base32, :base58, :base62, :base64, :base85
+    # @return [Boolean] true when valid
+    def self.valid?(string, base)
+      return false if string.nil? || !string.is_a?(String) || string.empty?
+
+      entry = DETECTION_ORDER.find { |(name, _)| name == base }
+      return false unless entry
+
+      alphabet = entry.last
+      string.each_char.to_a.to_set.subset?(alphabet)
+    end
+
     # Encode a string to Base58 (Bitcoin alphabet)
     #
     # @param string [String] the input string

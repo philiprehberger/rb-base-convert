@@ -115,6 +115,19 @@ Philiprehberger::BaseConvert.decode('FF', base: 16)   # => 255
 Philiprehberger::BaseConvert.encode(42, base: 2)      # => "101010"
 ```
 
+### Validation
+
+Check whether a string is syntactically valid for a given base without running a decode:
+
+```ruby
+Philiprehberger::BaseConvert.valid?('deadbeef', :hex)        # => true
+Philiprehberger::BaseConvert.valid?('deadbeefz', :hex)       # => false
+Philiprehberger::BaseConvert.valid?('1A2B3C4D5E', :base58)   # => true
+Philiprehberger::BaseConvert.valid?('0abc', :base58)         # => false  (0 not in Base58)
+Philiprehberger::BaseConvert.valid?('', :hex)                # => false
+Philiprehberger::BaseConvert.valid?('abc', :base99)          # => false  (unknown base)
+```
+
 ## API
 
 | Method | Description |
@@ -136,6 +149,7 @@ Philiprehberger::BaseConvert.encode(42, base: 2)      # => "101010"
 | `BaseConvert.encode(integer, base:)` | Encode an integer in an arbitrary base (2-62) |
 | `BaseConvert.decode(string, base:)` | Decode a string from an arbitrary base to an integer |
 | `BaseConvert.detect(string)` | Detect the narrowest matching base (`:hex`, `:base32`, `:base58`, `:base62`, `:base64`, `:base85`) or `nil` |
+| `BaseConvert.valid?(string, base)` | Check whether a string contains only characters from the given base's alphabet |
 
 ## Development
 
